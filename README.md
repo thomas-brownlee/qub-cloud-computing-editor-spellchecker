@@ -2,4 +2,4 @@
 
 Simple web service to return the number of characters in provided input.
 
-Written in node, listens on port 80.
+Written in python, listens on port 5000.
