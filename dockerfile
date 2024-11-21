@@ -2,10 +2,12 @@ FROM python:3.13
 
 WORKDIR /APP
 
-COPY ./ /APP/
-COPY ./requirement.txt /APP/
+COPY ./requirements.txt /APP/
 
-RUN pip install -r /APP/requirement.txt 
+RUN pip install -r /APP/requirements.txt 
+
+COPY ./ /APP/
+
 
 EXPOSE 5000
 
