@@ -15,7 +15,9 @@ Functions:
 """
 
 import re
+
 from spellchecker import SpellChecker
+
 
 def line_stripper(line_text: str) -> list:
     """
@@ -34,14 +36,15 @@ def line_stripper(line_text: str) -> list:
     cleaned_string = re.sub("[^A-Za-z ]", "", line_text)
     return cleaned_string.split(" ")
 
+
 def spell_check(spelling_text: str) -> tuple[int, list]:
     """
-    Checks spelling in a multi-line text, identifies misspelled words, 
+    Checks spelling in a multi-line text, identifies misspelled words,
     and suggests corrections.
 
     :param spelling_text: A multi-line string containing the text to check.
     :type spelling_text: str
-    :return: 
+    :return:
         - An integer representing the number of misspelled words, or an error code:
             - ``-1``: Input is not a string.
             - ``-2``: Input string is empty.
@@ -51,8 +54,8 @@ def spell_check(spelling_text: str) -> tuple[int, list]:
     :Example:
 
     >>> spell_check("Ths is a tst.\nHelo wrld!")
-    (3, ['spelling mistake Ths on line 0 did you mean This', 
-         'spelling mistake tst on line 0 did you mean test', 
+    (3, ['spelling mistake Ths on line 0 did you mean This',
+         'spelling mistake tst on line 0 did you mean test',
          'spelling mistake Helo on line 1 did you mean Hello'])
 
     :Notes:

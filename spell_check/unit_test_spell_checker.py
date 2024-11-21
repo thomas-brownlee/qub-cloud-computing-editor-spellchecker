@@ -1,11 +1,14 @@
 """
 This module provides unit testing for the spell_check module
 """
+
 import unittest
+
 from src import spell_checker
 
+
 class TestSpellChecker(unittest.TestCase):
-    """Testing class for the unit tests """
+    """Testing class for the unit tests"""
 
     def test_when_spelling_is_good(self):
         """Test case: When string param contains a valid string"""
