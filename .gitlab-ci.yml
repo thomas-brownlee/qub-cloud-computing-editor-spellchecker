@@ -2,19 +2,22 @@ services:
   - name: docker:20.10-dind
 
 stages:
-  - pylinting
-  - docker-build
-  - test-docker
+  - pylinting     # Code styling (Processes to follow python pep 8 standard)
+  - docker-build  
+  - test-docker   # Test the image after being added to docker
   - docker-deploy
 
-# Using the prefix PIPE_VAR to denote the variable is made in the pipeline 
 variables:
-  DOCKER_HOST: "tcp://docker:2375"  # Use non-TLS endpoint
-  DOCKER_TLS_CERTDIR: ""           # Disable TLS
-  
+  #Note: this gitlab instances doesnt seem to have TLS setup as such
+  DOCKER_HOST: "tcp://docker:2375"  #Note: Use non-TLS endpoint
+  DOCKER_TLS_CERTDIR: ""            #Note: Disable TLS
+
+  # Note: Using the prefix PIPE_VAR on variable made avilable to the entire pipeline 
   PIPE_VAR_DEPLOY_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME"
   PIPE_VAR_TEST_IMAGE: "$CI_REGISTRY_IMAGE/test-$CI_PROJECT_NAME:test-$CI_COMMIT_SHORT_SHA"
 
+
+# Scans code looking for things to recomend for both best pratices and to follow PEP8 conventions
 pylint:
   stage: pylinting
   image: python:3.13
@@ -22,6 +25,7 @@ pylint:
     - pip install -r requirements.txt
     - pylint $CI_PROJECT_DIR/spell_check
 
+# Scans the import to order them in standard with PEP8
 isort:
   stage: pylinting
   image: python:3.13
@@ -29,6 +33,7 @@ isort:
     - pip install -r requirements.txt
     - isort . --check-only
 
+# Scans the python code making sure it is a standardised format
 black:
   stage: pylinting
   image: python:3.13
@@ -52,6 +57,8 @@ docker-build:
   tags: 
     - dockerindocker
 
+# Tests the built image confirming that the docker build,
+# command hasnt changed the function of the unit test.
 docker-test:
   stage: test-docker
   image: 
