@@ -20,7 +20,8 @@ pylint:
   image: python:3.13
   script:
     - pip install Flask
-    - pylint spell_check
+    - pip install pylint
+    - pylint $CI_PROJECT_DIR/spell_check
 
 
 # Job Builds the image to allow testing from its deployment enviroment
