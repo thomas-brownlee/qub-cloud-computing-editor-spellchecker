@@ -33,7 +33,8 @@ def line_stripper(line_text: str) -> list:
     >>> line_stripper("Hello, world!123")
     ['Hello', 'world']
     """
-    cleaned_string = re.sub("[^A-Za-z ]", "", line_text)
+    string_with_spaces = line_text.replace("_", " ")
+    cleaned_string = re.sub("[^A-Za-z ]", "", string_with_spaces)
     return cleaned_string.split(" ")
 
 
