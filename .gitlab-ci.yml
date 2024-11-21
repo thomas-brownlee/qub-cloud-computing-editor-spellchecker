@@ -19,9 +19,7 @@ pylint:
   stage: pylinting
   image: python:3.13
   script:
-    - pip install Flask
-    - pip install pyspellchecker
-    - pip install pylint
+    - pip install -r requirement.txt
     - pylint $CI_PROJECT_DIR/spell_check
 
 
@@ -43,7 +41,7 @@ docker-build:
 
 docker-test:
   stage: test-docker
-  image: PIPE_VAR_TEST_IMAGE
+  image: $PIPE_VAR_TEST_IMAGE
   script:
     - python -m unittest discover --verbose . "test_*.py"
 
