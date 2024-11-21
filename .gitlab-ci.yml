@@ -15,6 +15,13 @@ variables:
   PIPE_VAR_DEPLOY_IMAGE_NAME: "$CI_REGISTRY_IMAGE/$CI_PROJECT_NAME"
   PIPE_VAR_TEST_IMAGE: "$CI_REGISTRY_IMAGE/test-$CI_PROJECT_NAME:test-$CI_COMMIT_SHORT_SHA"
 
+pylint:
+  stage: pylinting
+  image: python:3.13
+  script:
+    - pip install Flask
+    - pylint $CI_PROJECT_DIR/spell_check
+
 
 # Job Builds the image to allow testing from its deployment enviroment
 docker-build:
@@ -32,7 +39,11 @@ docker-build:
   tags: 
     - dockerindocker
 
-
+docker-test:
+  stage: test-docker
+  image: PIPE_VAR_TEST_IMAGE
+  script:
+    - python -m unittest discover --verbose . "test_*.py"
 
 
 # Deploys Develop image to allow for development of the image
