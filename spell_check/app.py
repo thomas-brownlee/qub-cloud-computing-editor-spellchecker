@@ -15,7 +15,6 @@ import json
 import os
 
 from flask import Flask, Response, request
-
 from src import spell_checker
 
 HOST_IP: str | None = os.getenv("HOST_IP")
