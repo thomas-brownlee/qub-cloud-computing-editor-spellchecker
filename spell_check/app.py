@@ -1,3 +1,16 @@
+"""
+ Flask Application 
+===================
+
+This module is designed to setup an api end point to run.
+
+This applications uses env variables to configure both,
+the Host IP and Port Number.
+- HOST_IP sets the host ip values (defaults to "0.0.0.0") 
+- IMAGE_PORT_NUM sets the port number (defaults to "80")
+
+"""
+
 import json
 import os
 
@@ -19,6 +32,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def adder():
+    """
+    Runs the api calls for the Spell Checker
+    """
     response = {"error": False, "string": "", "answer": 0}
 
     if not "text" in request.args:
@@ -28,8 +44,9 @@ def adder():
     if "text" in request.args:
         text = request.args.get("text")
         mistake_count, message_content = spell_checker.spell_check(text)
-        
-        if mistake_count <= 0 : # any issue in spell_check will return mistake_count to -1
+
+        # any issue in spell_check will return mistake_count to -1
+        if mistake_count <= 0:
             response["answer"] = int(mistake_count)
             response["string"] = message_content
         if mistake_count == -1:
@@ -38,7 +55,6 @@ def adder():
         if mistake_count == -2:
             response["error"] = True
             response["string"] = "Empty parameters - Text is not a string"
-         
 
     reply = json.dumps(response)
     r = Response(response=reply, status=200, mimetype="application/json")
