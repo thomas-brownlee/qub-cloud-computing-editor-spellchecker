@@ -22,6 +22,19 @@ pylint:
     - pip install -r requirements.txt
     - pylint $CI_PROJECT_DIR/spell_check
 
+isort:
+  stage: pylinting
+  image: python:3.13
+  script:
+    - pip install -r requirements.txt
+    - isort . --check-only
+
+black:
+  stage: pylinting
+  image: python:3.13
+  script:
+    - pip install -r requirements.txt
+    - black . --check
 
 # Job Builds the image to allow testing from its deployment enviroment
 docker-build:
