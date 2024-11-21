@@ -56,11 +56,9 @@ docker-test:
   stage: test-docker
   image: 
     name: $PIPE_VAR_TEST_IMAGE
-    entrypoint: 
-      - "/bin/bash"
+    entrypoint: [""]
   script:
-    - cd $CI_PROJECT_DIR/spell_check/
-    - python -m unittest unit_test_spell_checker.py 
+    - /bin/bash -c "cd $CI_PROJECT_DIR/spell_check && python -m unittest unit_test_spell_checker.py"
 
 
 # Deploys Develop image to allow for development of the image
