@@ -43,7 +43,8 @@ docker-test:
   stage: test-docker
   image: $PIPE_VAR_TEST_IMAGE
   script:
-    - python -m unittest discover --verbose . "test_*.py"
+    - cd $CI_PROJECT_DIR/spell_check/
+    - python -m unittest unit_test_spell_checker.py 
 
 
 # Deploys Develop image to allow for development of the image
