@@ -30,7 +30,7 @@ def adder():
         mistake_count, message_content = spell_checker.spell_check(text)
 
         # any issue in spell_check will return mistake_count to -1
-        if mistake_count <= 0:
+        if mistake_count >= 0:
             response["answer"] = int(mistake_count)
             response["string"] = message_content
         if mistake_count == -1:
