@@ -11,7 +11,6 @@ import json
 from flask import Flask, Response, request
 from src import spell_checker
 
-
 app = Flask(__name__)
 
 
