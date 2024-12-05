@@ -1,14 +1,11 @@
-services:
-  - name: docker:20.10-dind
-
 stages:
-  - pylinting     # Code styling (Processes to follow python pep 8 standard)
+  - quality-check     # Code styling (Processes to follow python pep 8 standard)
   - docker-build  
-  - test-docker   # Test the image after being added to docker
+  - testing           # Test the image after being added to docker
   - docker-deploy
 
 variables:
-  #Note: this gitlab instances doesnt seem to have TLS setup as such
+  #Note: this gitlab instances doesn't seem to have TLS setup as such
   DOCKER_HOST: "tcp://docker:2375"  #Note: Use non-TLS endpoint
   DOCKER_TLS_CERTDIR: ""            #Note: Disable TLS
 
@@ -45,6 +42,8 @@ black:
 docker-build:
   stage: docker-build
   image: docker:20.10-dind
+  services:
+    - name: docker:20.10-dind
   variables:
     JOB_VAR_BASE_IMAGE: "$PIPE_VAR_DEPLOY_IMAGE_NAME:develop"
   before_script:
@@ -58,14 +57,13 @@ docker-build:
     - dockerindocker
 
 # Tests the built image confirming that the docker build,
-# command hasnt changed the function of the unit test.
-docker-test:
-  stage: test-docker
-  image: 
-    name: $PIPE_VAR_TEST_IMAGE
-    entrypoint: [""] # Overwriting the Docker files endpoint to allow a bash commands
+# command hasn't changed the function of the unit test.
+unit-test:
+  stage: testing
+  image: python:3.13
   script:
-    - /bin/bash -c "cd $CI_PROJECT_DIR/spell_check && python -m unittest unit_test_spell_checker.py"
+    - cd $CI_PROJECT_DIR/spell_check/test
+    - python -m unittest unit_test_spell_checker.py
 
 
 # Deploys Develop image to allow for development of the image

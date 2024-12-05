@@ -11,6 +11,6 @@ COPY ./spell_check /APP
 EXPOSE 5000
 
 ENTRYPOINT ["python3"]
-CMD ["app.py"]
+CMD ["src/app.py"]
 
 
