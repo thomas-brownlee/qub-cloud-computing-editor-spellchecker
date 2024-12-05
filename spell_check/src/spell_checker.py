@@ -72,7 +72,7 @@ def spell_check(spelling_text: str) -> dict[str, bool | str | int]:
             spelling_mistake_messages.append(message_text)
     response["error"] = False
 
-    response["string"] = ','.join(spelling_mistake_messages)
+    response["string"] = ', '.join(spelling_mistake_messages)
     if not spelling_mistake_messages:
         response["string"] = "There are no misspelled words in this text."
     response["answer"] = len(spelling_mistake_messages)
