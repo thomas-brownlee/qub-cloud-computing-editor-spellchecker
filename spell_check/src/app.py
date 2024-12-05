@@ -14,12 +14,21 @@ from spell_check.src import spell_checker
 app = Flask(__name__)
 
 
-@app.route("/")
-def adder():
+
+@app.route('/api/spell-check/service/ping', methods=['GET'])
+def ping():
+    reply:str = json.dumps({"status": "active"})
+    r = Response(response=reply, status=200, mimetype="application/json")
+    r.headers["Content-Type"] = "application/json"
+    r.headers["Access-Control-Allow-Origin"] = "*"
+    return r
+
+@app.route("/api/spell-check", methods=["GET"])
+def spell_check_function():
     """
     Runs the api calls for the Spell Checker
     """
-    response: dict = {
+    response: dict[str, bool | str | int] = {
         "error": False,
         "string": "",
         "answer": 0
@@ -31,18 +40,8 @@ def adder():
 
     if "text" in request.args:
         text:str = str(request.args.get("text"))
-        mistake_count, message_content = spell_checker.spell_check(text)
+        response: dict[str, bool | str | int] = spell_checker.spell_check(text)
 
-        # any issue in spell_check will return mistake_count to -1
-        if mistake_count >= 0:
-            response["answer"] = int(mistake_count)
-            response["string"] = str(message_content)
-        if mistake_count == -1:
-            response["error"] = True
-            response["string"] = "Missing parameters - Text is not a string"
-        if mistake_count == -2:
-            response["error"] = True
-            response["string"] = "Empty parameters - Text is not a string"
 
     reply:str = json.dumps(response)
     r = Response(response=reply, status=200, mimetype="application/json")
