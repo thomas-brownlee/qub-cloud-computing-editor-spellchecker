@@ -4,7 +4,7 @@ This module provides unit testing for the spell_check module
 
 import unittest
 
-from src import spell_checker
+from spell_check.src import spell_checker
 
 
 class TestSpellChecker(unittest.TestCase):
