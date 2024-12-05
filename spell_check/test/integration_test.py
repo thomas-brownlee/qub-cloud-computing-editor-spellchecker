@@ -50,3 +50,28 @@ def test_spell_check_endpoint_no_parameter_passed(client):
         'answer': 0,
     }
     assert response.json == expected_data
+
+
+def test_spell_check_endpoint_string_pram_is_empty(client):
+    """
+    Test the /api/spell-check endpoint.
+
+    When parameter is empty
+    """
+    response = client.get('/api/spell-check?text=')
+
+    # Assert the status code is 200
+    assert response.status_code == 200
+
+    # Assert the response headers return json and CORS is allowed
+    assert response.headers["Content-Type"] == "application/json"
+    assert response.headers["Access-Control-Allow-Origin"] == "*"
+
+    # Assert the response JSON
+    expected_data = {
+        'error': True,
+        'string': 'Empty parameters - Text is not a string',
+        'answer': 0,
+    }
+    assert response.json == expected_data
+
