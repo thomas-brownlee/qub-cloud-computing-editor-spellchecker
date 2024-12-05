@@ -98,7 +98,7 @@ def test_spell_check_endpoint_string_pram_is_valid_string_with_no_spelling_mista
     }
     assert response.json == expected_data
 
-def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistakes(client):
+def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistake(client):
     """
     Test the /api/spell-check endpoint.
 
@@ -120,3 +120,26 @@ def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistakes
         'answer': 1,
     }
     assert response.json == expected_data
+
+def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistakes(client):
+    """
+    Test the /api/spell-check endpoint.
+
+    When parameter is empty
+    """
+    response = client.get('/api/spell-check?text=helo world thoms')
+
+    # Assert the status code is 200
+    assert response.status_code == 200
+
+    # Assert the response headers return json and CORS is allowed
+    assert response.headers["Content-Type"] == "application/json"
+    assert response.headers["Access-Control-Allow-Origin"] == "*"
+
+    # Assert the response JSON
+    expected_data = {
+        'error': False,
+        'answer': 2,
+    }
+    assert response.json['error'] == expected_data['error']
+    assert response.json['answer'] == expected_data['answer']
