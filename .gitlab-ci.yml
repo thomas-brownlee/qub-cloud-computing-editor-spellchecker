@@ -65,6 +65,7 @@ unit-test:
     - ls
     - cd $CI_PROJECT_DIR/spell_check/test
     - python -m unittest unit_test_spell_checker.py
+  needs: []
 
 
 # Deploys Develop image to allow for development of the image
