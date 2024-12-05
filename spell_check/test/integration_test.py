@@ -28,3 +28,25 @@ def test_ping_endpoint(client):
     expected_data = {"status": "active"}
     assert response.json == expected_data
 
+def test_spell_check_endpoint_no_parameter_passed(client):
+    """
+    Test the /api/spell-check/service/ping endpoint.
+
+    When no parameters are passed
+    """
+    response = client.get('/api/spell-check')
+
+    # Assert the status code is 200
+    assert response.status_code == 200
+
+    # Assert the response headers return json and CORS is allowed
+    assert response.headers["Content-Type"] == "application/json"
+    assert response.headers["Access-Control-Allow-Origin"] == "*"
+
+    # Assert the response JSON
+    expected_data = {
+        'error': True,
+        'string': 'Missing parameters - must have an text',
+        'answer': 0,
+    }
+    assert response.json == expected_data
