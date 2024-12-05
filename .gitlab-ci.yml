@@ -16,7 +16,7 @@ variables:
 
 # Scans code looking for things to recomend for both best pratices and to follow PEP8 conventions
 pylint:
-  stage: pylinting
+  stage: quality-check  
   image: python:3.13
   script:
     - pip install -r requirements.txt
@@ -24,7 +24,7 @@ pylint:
 
 # Scans the import to order them in standard with PEP8
 isort:
-  stage: pylinting
+  stage: quality-check
   image: python:3.13
   script:
     - pip install -r requirements.txt
@@ -32,7 +32,7 @@ isort:
 
 # Scans the python code making sure it is a standardised format
 black:
-  stage: pylinting
+  stage: quality-check
   image: python:3.13
   script:
     - pip install -r requirements.txt
