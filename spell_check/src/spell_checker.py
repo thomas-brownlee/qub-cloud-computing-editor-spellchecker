@@ -23,7 +23,7 @@ spell = SpellChecker()
 response: dict[str, bool | str | int] = {
     "error": True,
     "string": "Unpopulated responce",
-    "answer": 0
+    "answer": 0,
 }
 
 
@@ -50,7 +50,7 @@ def spell_check(spelling_text: str) -> dict[str, bool | str | int]:
     """
     Checks spelling in a multi-line text, identifies misspelled words,
     and suggests corrections.
-   """
+    """
     if not isinstance(spelling_text, str):
         response["string"] = "Invalid Type - Text is not a string"
         return response
@@ -72,7 +72,7 @@ def spell_check(spelling_text: str) -> dict[str, bool | str | int]:
             spelling_mistake_messages.append(message_text)
     response["error"] = False
 
-    response["string"] = ', '.join(spelling_mistake_messages)
+    response["string"] = ", ".join(spelling_mistake_messages)
     if not spelling_mistake_messages:
         response["string"] = "There are no misspelled words in this text."
     response["answer"] = len(spelling_mistake_messages)
