@@ -87,7 +87,7 @@ end-to-end-test:
   before_script:
     - pip install -r $JOB_VAR_END_TO_END_TEST_FOLDER/requirements.txt
   script:
-    - python -m unittest $JOB_VAR_END_TO_END_TEST_FOLDER/test_service.py
+    - python -m unittest $JOB_VAR_END_TO_END_TEST_FOLDER/end_to_end_test.py
 
 
 
