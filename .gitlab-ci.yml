@@ -83,7 +83,7 @@ end-to-end-test:
       alias: spell-check
   variables:
     JOB_VAR_TEST_URL: "http://spell-check:80"
-    JOB_VAR_END_TO_END_TEST_FOLDER: "$CI_PROJECT_DIR/spell_check/test/"
+    JOB_VAR_END_TO_END_TEST_FOLDER: "$CI_PROJECT_DIR/spell_check/test"
   before_script:
     - pip install -r $JOB_VAR_END_TO_END_TEST_FOLDER/requirements.txt
   script:
