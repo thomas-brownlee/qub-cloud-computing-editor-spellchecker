@@ -65,6 +65,16 @@ unit-test:
     - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
     - python -m unittest spell_check.test.unit_test_spell_checker
 
+# runs the unit tests generated 
+integration-test:
+  stage: testing
+  image: python:3.13
+  script:
+    - pip install -r requirements.txt
+    - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
+    - pytest $CI_PROJECT_DIR/spell_check/test/integration_test.py
+
+
 
 # Deploys Develop image to allow for development of the image
 docker-develop-deploy:
