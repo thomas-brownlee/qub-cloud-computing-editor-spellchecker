@@ -65,7 +65,7 @@ unit-test:
     - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
     - python -m unittest spell_check.test.unit_test_spell_checker
 
-# runs the unit tests generated 
+# Runs the unit tests generated 
 integration-test:
   stage: testing
   image: python:3.13
@@ -73,6 +73,23 @@ integration-test:
     - pip install -r requirements.txt
     - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
     - pytest $CI_PROJECT_DIR/spell_check/test/integration_test.py
+
+# Job runs to test the whole image before deployment
+end-to-end-test:
+  stage: testing
+  image: python:3.13
+  services:
+    - name: $PIPE_VAR_TEST_IMAGE
+      alias: spell-check
+  variables:
+    JOB_VAR_TEST_URL: "http://spell-check:80"
+    JOB_VAR_END_TO_END_TEST_FOLDER: "$CI_PROJECT_DIR/spell_check/test/"
+  before_script:
+    - pip install -r $JOB_VAR_END_TO_END_TEST_FOLDER/requirements.txt
+  script:
+    - python -m unittest $JOB_VAR_END_TO_END_TEST_FOLDER/test_service.py
+
+
 
 
 
