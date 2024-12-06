@@ -62,7 +62,7 @@ unit-test:
   stage: testing
   image: python:3.13
   variables:
-    PYTHONPATH: $CI_PROJECT_DIR
+    PYTHONPATH: .
   script:
     - ls
     - cd $CI_PROJECT_DIR/spell_check/test
