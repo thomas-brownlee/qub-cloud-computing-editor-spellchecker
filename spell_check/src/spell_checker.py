@@ -51,9 +51,6 @@ def spell_check(spelling_text: str) -> dict[str, bool | str | int]:
     Checks spelling in a multi-line text, identifies misspelled words,
     and suggests corrections.
     """
-    if not spelling_text.isascii():
-        response["string"] = "Text contains non-ascii characters"
-        return response
 
     if not isinstance(spelling_text, str):
         response["string"] = "Invalid Type - Text is not a string"
