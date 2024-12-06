@@ -66,8 +66,7 @@ unit-test:
   script:
     - echo $PYTHONPATH
     - ls -R $CI_PROJECT_DIR
-    - cd $CI_PROJECT_DIR/spell_check/test
-    - python -m unittest unit_test_spell_checker.py
+    - python -m unittest spell_check\test\unit_test_spell_checker.py
   needs: []
 
 
