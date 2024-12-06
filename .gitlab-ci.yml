@@ -64,7 +64,6 @@ unit-test:
     - pip install -r requirements.txt
     - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
     - python -m unittest spell_check.test.unit_test_spell_checker
-  needs: []
 
 
 # Deploys Develop image to allow for development of the image
