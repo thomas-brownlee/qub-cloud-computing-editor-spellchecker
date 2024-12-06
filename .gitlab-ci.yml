@@ -64,8 +64,8 @@ unit-test:
   variables:
     PYTHONPATH: $CI_PROJECT_DIR/spell_check
   script:
-    - echo $PYTHONPATH
-    - ls -R $CI_PROJECT_DIR
+    - pip install -r requirements.txt
+    - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
     - python -m unittest spell_check.test.unit_test_spell_checker
   needs: []
 
