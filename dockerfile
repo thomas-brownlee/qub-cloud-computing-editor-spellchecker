@@ -1,6 +1,6 @@
 FROM python:3.13
 
-ENV PYTHONPATH=/APP/src/spell_check:$PYTHONPATH
+ENV PYTHONPATH=/APP
 
 WORKDIR /APP
 
@@ -8,11 +8,11 @@ COPY ./requirements.txt /APP/
 
 RUN pip install -r /APP/requirements.txt 
 
-COPY ./spell_check /APP
+COPY ./spell_check /APP/spell_check
 
-EXPOSE 5000
+EXPOSE 80
 
 ENTRYPOINT ["python3"]
-CMD ["/APP/src/app.py"]
+CMD ["/APP/spell_check/src/app.py"]
 
 
