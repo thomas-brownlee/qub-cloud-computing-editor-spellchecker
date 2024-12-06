@@ -9,15 +9,15 @@ from spell_check.src.app import app
 
 
 @pytest.fixture
-def client(): # pylint: disable=W0621
+def client():  # pylint: disable=W0621
     """
     A test client for the Flask app.
     """
-    with app.test_client() as client: # pylint: disable=W0621
+    with app.test_client() as client:  # pylint: disable=W0621
         yield client
 
 
-def test_ping_endpoint(client): # pylint: disable=W0621
+def test_ping_endpoint(client):  # pylint: disable=W0621
     """
     Test the /api/spell-check/service/ping endpoint.
     """
@@ -35,7 +35,7 @@ def test_ping_endpoint(client): # pylint: disable=W0621
     assert response.json == expected_data
 
 
-def test_spell_check_endpoint_no_parameter_passed(client): # pylint: disable=W0621
+def test_spell_check_endpoint_no_parameter_passed(client):  # pylint: disable=W0621
     """
     Test the /api/spell-check/service/ping endpoint.
 
@@ -59,7 +59,7 @@ def test_spell_check_endpoint_no_parameter_passed(client): # pylint: disable=W06
     assert response.json == expected_data
 
 
-def test_spell_check_endpoint_string_pram_is_empty(client): # pylint: disable=W0621
+def test_spell_check_endpoint_string_pram_is_empty(client):  # pylint: disable=W0621
     """
     Test the /api/spell-check endpoint.
 
@@ -85,7 +85,7 @@ def test_spell_check_endpoint_string_pram_is_empty(client): # pylint: disable=W0
 
 def test_spell_check_endpoint_string_pram_is_valid_string_with_no_spelling_mistakes(
     client,
-): # pylint: disable=W0621
+):  # pylint: disable=W0621
     """
     Test the /api/spell-check endpoint.
 
@@ -109,7 +109,9 @@ def test_spell_check_endpoint_string_pram_is_valid_string_with_no_spelling_mista
     assert response.json == expected_data
 
 
-def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistake(client):# pylint: disable=W0621
+def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistake(
+    client,
+):  # pylint: disable=W0621
     """
     Test the /api/spell-check endpoint.
 
@@ -135,7 +137,7 @@ def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistake(
 
 def test_spell_check_endpoint_string_pram_is_valid_string_with_spelling_mistakes(
     client,
-):# pylint: disable=W0621
+):  # pylint: disable=W0621
     """
     Test the /api/spell-check endpoint.
 
