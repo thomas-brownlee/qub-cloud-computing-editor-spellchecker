@@ -1,14 +1,11 @@
-services:
-  - name: docker:20.10-dind
-
 stages:
-  - pylinting     # Code styling (Processes to follow python pep 8 standard)
+  - quality-check     # Code styling (Processes to follow python pep 8 standard)
   - docker-build  
-  - test-docker   # Test the image after being added to docker
+  - testing           # Test the image after being added to docker
   - docker-deploy
 
 variables:
-  #Note: this gitlab instances doesnt seem to have TLS setup as such
+  #Note: this gitlab instances doesn't seem to have TLS setup as such
   DOCKER_HOST: "tcp://docker:2375"  #Note: Use non-TLS endpoint
   DOCKER_TLS_CERTDIR: ""            #Note: Disable TLS
 
@@ -19,7 +16,7 @@ variables:
 
 # Scans code looking for things to recomend for both best pratices and to follow PEP8 conventions
 pylint:
-  stage: pylinting
+  stage: quality-check  
   image: python:3.13
   script:
     - pip install -r requirements.txt
@@ -27,7 +24,7 @@ pylint:
 
 # Scans the import to order them in standard with PEP8
 isort:
-  stage: pylinting
+  stage: quality-check
   image: python:3.13
   script:
     - pip install -r requirements.txt
@@ -35,7 +32,7 @@ isort:
 
 # Scans the python code making sure it is a standardised format
 black:
-  stage: pylinting
+  stage: quality-check
   image: python:3.13
   script:
     - pip install -r requirements.txt
@@ -45,6 +42,8 @@ black:
 docker-build:
   stage: docker-build
   image: docker:20.10-dind
+  services:
+    - name: docker:20.10-dind
   variables:
     JOB_VAR_BASE_IMAGE: "$PIPE_VAR_DEPLOY_IMAGE_NAME:develop"
   before_script:
@@ -57,15 +56,41 @@ docker-build:
   tags: 
     - dockerindocker
 
-# Tests the built image confirming that the docker build,
-# command hasnt changed the function of the unit test.
-docker-test:
-  stage: test-docker
-  image: 
-    name: $PIPE_VAR_TEST_IMAGE
-    entrypoint: [""] # Overwriting the Docker files endpoint to allow a bash commands
+# runs the unit tests generated 
+unit-test:
+  stage: testing
+  image: python:3.13
   script:
-    - /bin/bash -c "cd $CI_PROJECT_DIR/spell_check && python -m unittest unit_test_spell_checker.py"
+    - pip install -r requirements.txt
+    - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
+    - python -m unittest spell_check.test.unit_test_spell_checker
+
+# Runs the unit tests generated 
+integration-test:
+  stage: testing
+  image: python:3.13
+  script:
+    - pip install -r requirements.txt
+    - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
+    - pytest $CI_PROJECT_DIR/spell_check/test/integration_test.py
+
+# Job runs to test the whole image before deployment
+end-to-end-test:
+  stage: testing
+  image: python:3.13
+  services:
+    - name: $PIPE_VAR_TEST_IMAGE
+      alias: spell-check
+  variables:
+    JOB_VAR_TEST_URL: "http://spell-check:80"
+    JOB_VAR_END_TO_END_TEST_FOLDER: "$CI_PROJECT_DIR/spell_check/test"
+  before_script:
+    - pip install -r $JOB_VAR_END_TO_END_TEST_FOLDER/requirements.txt
+  script:
+    - python -m unittest $JOB_VAR_END_TO_END_TEST_FOLDER/end_to_end_test.py
+
+
+
 
 
 # Deploys Develop image to allow for development of the image

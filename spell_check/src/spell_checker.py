@@ -18,6 +18,14 @@ import re
 
 from spellchecker import SpellChecker
 
+spell = SpellChecker()
+
+response: dict[str, bool | str | int] = {
+    "error": True,
+    "string": "Unpopulated responce",
+    "answer": 0,
+}
+
 
 def line_stripper(line_text: str) -> list:
     """
@@ -38,38 +46,19 @@ def line_stripper(line_text: str) -> list:
     return cleaned_string.split(" ")
 
 
-def spell_check(spelling_text: str) -> tuple[int, list]:
+def spell_check(spelling_text: str) -> dict[str, bool | str | int]:
     """
     Checks spelling in a multi-line text, identifies misspelled words,
     and suggests corrections.
-
-    :param spelling_text: A multi-line string containing the text to check.
-    :type spelling_text: str
-    :return:
-        - An integer representing the number of misspelled words, or an error code:
-            - ``-1``: Input is not a string.
-            - ``-2``: Input string is empty.
-        - A list of messages describing each misspelling and suggesting corrections.
-    :rtype: tuple[int, list]
-
-    :Example:
-
-    >>> spell_check("Ths is a tst.\nHelo wrld!")
-    (3, ['spelling mistake Ths on line 0 did you mean This',
-         'spelling mistake tst on line 0 did you mean test',
-         'spelling mistake Helo on line 1 did you mean Hello'])
-
-    :Notes:
-        - Each misspelled word is reported with the line number where it was found.
-        - Suggestions are based on the closest match determined by the ``SpellChecker`` library.
     """
+
     if not isinstance(spelling_text, str):
-        return -1, []
+        response["string"] = "Invalid Type - Text is not a string"
+        return response
+
     if spelling_text == "":
-        return -2, []
-
-    spell = SpellChecker()
-
+        response["string"] = "Empty parameters - Text is not a string"
+        return response
     spelling_mistake_by_line = spelling_text.split("\n")
     spelling_mistake_messages = []
 
@@ -82,5 +71,10 @@ def spell_check(spelling_text: str) -> tuple[int, list]:
                 f"{i} did you mean {spell.correction(word)}"
             )
             spelling_mistake_messages.append(message_text)
+    response["error"] = False
 
-    return len(spelling_mistake_messages), spelling_mistake_messages
+    response["string"] = ", ".join(spelling_mistake_messages)
+    if not spelling_mistake_messages:
+        response["string"] = "There are no misspelled words in this text."
+    response["answer"] = len(spelling_mistake_messages)
+    return response
