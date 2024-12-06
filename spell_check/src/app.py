@@ -34,10 +34,6 @@ def spell_check_function():
     """
     response: dict[str, bool | str | int] = {"error": False, "string": "", "answer": 0}
 
-    if  not text.isAscii():
-        response["error"]   = True
-        response["string"]  = "Parameter contains non ascii characters"
-
     if not "text" in request.args:
         response["error"] = True
         response["string"] = "Missing parameters - must have an text"
