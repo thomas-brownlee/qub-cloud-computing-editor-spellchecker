@@ -1,5 +1,7 @@
 FROM python:3.13
 
+ENV PYTHONPATH=/APP/src/spell_check:$PYTHONPATH
+
 WORKDIR /APP
 
 COPY ./requirements.txt /APP/
