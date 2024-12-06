@@ -56,13 +56,10 @@ docker-build:
   tags: 
     - dockerindocker
 
-# Tests the built image confirming that the docker build,
-# command hasn't changed the function of the unit test.
+# runs the unit tests generated 
 unit-test:
   stage: testing
   image: python:3.13
-  variables:
-    PYTHONPATH: $CI_PROJECT_DIR/spell_check
   script:
     - pip install -r requirements.txt
     - export PYTHONPATH=$CI_PROJECT_DIR/spell_check:$PYTHONPATH
