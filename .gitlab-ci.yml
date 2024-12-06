@@ -62,6 +62,8 @@ unit-test:
   stage: testing
   image: python:3.13
   script:
+    - echo $PYTHONPATH
+    - ls -R $CI_PROJECT_DIR
     - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR/spell_check
     - cd $CI_PROJECT_DIR/spell_check/test
     - python -m unittest unit_test_spell_checker.py
