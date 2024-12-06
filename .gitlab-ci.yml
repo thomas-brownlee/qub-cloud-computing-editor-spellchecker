@@ -97,6 +97,8 @@ end-to-end-test:
 docker-develop-deploy:
   stage: docker-deploy
   image: docker:20.10-dind
+  services:
+  - name: docker:20.10-dind
   variables:
     JOB_VAR_DEPLOY: "$PIPE_VAR_DEPLOY_IMAGE_NAME:develop"
   before_script:
@@ -117,6 +119,8 @@ docker-develop-deploy:
 docker-latest-deploy:
   stage: docker-deploy
   image: docker:20.10-dind
+  services:
+  - name: docker:20.10-dind
   variables:
     JOB_VAR_DEPLOY: "$PIPE_VAR_DEPLOY_IMAGE_NAME:latest"
   before_script:
@@ -137,6 +141,8 @@ docker-latest-deploy:
 docker-release-deploy:
   stage: docker-deploy
   image: docker:20.10-dind
+  services:
+  - name: docker:20.10-dind
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
