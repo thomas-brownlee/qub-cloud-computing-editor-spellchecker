@@ -32,7 +32,7 @@ def spell_check_function():
     """
     Runs the api calls for the Spell Checker
     """
-    response: dict[str, bool | str | int] = {"error": False, "string": "", "answer": 0}
+    response: dict[str, bool | str | int] = {"error": True, "string": "", "answer": 0}
 
     if not "text" in request.args:
         response["error"] = True
