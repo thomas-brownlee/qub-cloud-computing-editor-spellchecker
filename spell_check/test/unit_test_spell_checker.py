@@ -29,9 +29,9 @@ class TestSpellChecker(unittest.TestCase):
     def test_when_string_is_empty(self):
         """Test case: When param is empty string"""
         responce = spell_checker.spell_check("")
-        self.assertEqual(responce["error"], False)
+        self.assertEqual(responce["error"], True)
         self.assertEqual(responce["string"], "Empty parameters - Text is not a string")
-        self.assertEqual(responce["answer"], 1)
+        self.assertEqual(responce["answer"], 0)
 
     def test_when_string_contain_spelling_mistake(self):
         """Test case: When param contains a spelling mistake"""
